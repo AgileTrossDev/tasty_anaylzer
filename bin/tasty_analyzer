@@ -1,0 +1,10 @@
+#!/bin/bash
+
+BINPATH=`dirname $0`
+echo $BINPATH
+
+EXEC_PATH="$BINPATH/../tasty_analyzer/main.py" $@
+echo $EXEC_PATH
+
+python -V
+python $EXEC_PATH

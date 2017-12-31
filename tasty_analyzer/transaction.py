@@ -1,12 +1,7 @@
-# Processes a Tasty Trade CVS file into a
-
-# Impports
 import csv
-
 
 class Transaction:
     def __init__(self,**kwargs):
-        print("Creating Transaction instance")
         if kwargs is not None:
              for key, value in kwargs.items():
                 setattr(self, key, value)
@@ -20,6 +15,8 @@ class Transaction:
 #############################################################################@##
 def build_transaction_map(path):
     transaction_map = {}
+
+    print ("Loading Transactions from File: ", path)
     with open(path, newline='') as csvfile:
          spamreader = csv.DictReader(csvfile)
          for row in spamreader:
@@ -56,6 +53,7 @@ def build_transaction_map(path):
                 transaction_map[key] = []
                 transaction_map[key].append(record)
 
+    print ("CSV File loaded!")
     return transaction_map
 
 #############################################################################@##
@@ -70,15 +68,21 @@ def disp_transaction_map(transaction_map):
 
 
 #############################################################################@##
-# Main
+# Display just the Underylings that exist in the Transaction Map
 #############################################################################@##
+def disp_underlyings(transaction_map):
+    print ("Now diplaying Underlyings...")
+    for k,v in transaction_map.items():
+         print(k)
 
-# Start Up
-print("Starting the Tasty Trade Script")
 
-path = 'real_data/2017_real_master.csv'
-transaction_map = build_transaction_map(path)
-disp_transaction_map(transaction_map)
 
-# Exit
-print("Exiting")
+
+#############################################################################@##
+# Display just the Underylings that exist in the Transaction Map
+#############################################################################@##
+def disp_underlying_history(transaction_map,symbol):
+    print ("Now diplaying %s history...", symbol)
+
+    for rec in transaction_map[symbol]:
+        rec.disp()
