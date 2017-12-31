@@ -19,6 +19,7 @@ def main_menu():
     print ("2. Display all transactions")
     print ("3. Display all Underlyings traded")
     print ("4. Display Underlying history")
+    print ("5. Calculate Underlying Profit")
     print ("\nQ. Quit")
     choice = input(" >>  ")
     exec_menu(choice)
@@ -39,24 +40,24 @@ def exec_menu(choice):
             menu_actions['main_menu']()
     return
 
-# Menu 1
-def menu1():
-    print ("Hello Menu 1 !\n")
-    print ("9. Back")
-    print ("0. Quit")
-    choice = input(" >>  ")
-    exec_menu(choice)
-    return
-
-
-# Menu 2
-def menu2():
-    print ("Hello Menu 2 !\n")
-    print ("9. Back")
-    print ("0. Quit")
-    choice = input(" >>  ")
-    exec_menu(choice)
-    return
+# # Menu 1
+# def menu1():
+#     print ("Hello Menu 1 !\n")
+#     print ("9. Back")
+#     print ("0. Quit")
+#     choice = input(" >>  ")
+#     exec_menu(choice)
+#     return
+#
+#
+# # Menu 2
+# def menu2():
+#     print ("Hello Menu 2 !\n")
+#     print ("9. Back")
+#     print ("0. Quit")
+#     choice = input(" >>  ")
+#     exec_menu(choice)
+#     return
 
 # Back to main menu
 def back():
@@ -106,16 +107,27 @@ def disp_underlyings():
 
 def disp_underlying_history():
     global transaction_map
-    symbol = input('Underyling Symbol')
+    symbol = input('Underyling Symbol >> ')
     transaction.disp_underlying_history(transaction_map,symbol)
 
     press_key_to_continue()
     menu_actions['main_menu']()
     return
 
-def return_to_main_menu():
+
+def calc_underlying_profit():
+    global transaction_map
+    symbol = input('Underyling Symbol >> ')
+    transaction.calc_profit_for_underlying(transaction_map,symbol)
+
     press_key_to_continue()
     menu_actions['main_menu']()
+    return
+
+
+# def return_to_main_menu():
+#     press_key_to_continue()
+#     menu_actions['main_menu']()
 
 
 # Exit program
@@ -133,6 +145,7 @@ menu_actions = {
     '2': disp_transactions,
     '3': disp_underlyings,
     '4': disp_underlying_history,
+    '5': calc_underlying_profit,
     '9': back,
     'Q': exit,
     'q': exit,
