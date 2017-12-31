@@ -66,6 +66,9 @@ def back():
 
 def load_csv():
     csv_path = input(" path to csv >>  ")
+    if (csv_path == ""):
+        csv_path = "real_data/roth_2017.csv"
+        
     global transaction_map
     if os.path.isfile(csv_path):
         transaction_map = transaction.build_transaction_map(csv_path)
