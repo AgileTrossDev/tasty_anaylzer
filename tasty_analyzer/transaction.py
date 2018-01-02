@@ -105,16 +105,12 @@ def calc_profit_for_underlying(transaction_map,symbol):
 
     result = 0
     for rec in transaction_map[symbol]:
-        if "BUY"  in rec.action:
-            print ("Buying AMZN...", rec.value)
-        elif "SELL"  in rec.action:
-            print ("Selling AMZN...",rec.value)
+        print ("{} {} {} at {}".format(rec.action,symbol,rec.option,rec.value) )
+        result = result + rec.quantity * ( rec.value + rec.commisions + rec.fees)
+        #result = result + rec.quantity * ( rec.value )
+        #print ("Updated Result: ",result)
 
-        result = result + rec.value + rec.commisions + rec.fees
-        print ("Updated Result: ",result)
-
-
-    print ("NET: ", result)
+    print ("\n\nTOTAL (including Fees and commission): ", result)
 
 #############################################################################@##
 # Display just the Underylings that exist in the Transaction Map
