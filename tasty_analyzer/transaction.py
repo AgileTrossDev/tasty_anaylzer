@@ -1,4 +1,4 @@
-import csv
+import csv,os,sys
 
 class Transaction:
     # date = row['Date'],
@@ -76,6 +76,47 @@ def build_transaction_map(path):
 
     print ("CSV File loaded!")
     return transaction_map
+
+
+#############################################################################@##
+# Combines two maps into one map.  The contents of source are inserted into dest
+#############################################################################@##
+def combine_transaction_maps(dest, src):
+    
+    
+    for k,v in src.items():
+        if k in dest:  # Update existing underyling
+          dest[k] = dest[k] +src[k]
+        else: # new underlying
+          print ("New Underlying: ", k)
+          dest[k] = src[k]
+    
+    return dest
+    
+    
+
+#############################################################################@##
+# Load directory of csv files combining all records into one transaction map
+#############################################################################@##
+def load_dir_of_csv_files(path):
+  
+  print ("Loading CSV files from dir: ", path)
+  combined_map=  {}
+  
+  try:
+    for file in os.listdir(path):
+      if file.endswith(".csv"):
+        print (" loading file:", (os.path.join(path, file)))
+        tmp = build_transaction_map(os.path.join(path, file))
+        combined_map = combine_transaction_maps(combined_map,tmp)
+      
+  except:
+    print("Unexpected error:", sys.exc_info()[0])
+    raise    
+    
+  return combined_map
+
+
 
 #############################################################################@##
 # Displays a transaction map to stdout

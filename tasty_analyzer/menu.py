@@ -9,7 +9,9 @@ transaction_map = {}
 #     MENUS FUNCTIONS
 # =======================
 
+#############################################################################@##
 # Main menu
+#############################################################################@##
 def main_menu():
     os.system('clear')
 
@@ -20,13 +22,17 @@ def main_menu():
     print ("3. Display all Underlyings traded")
     print ("4. Display Underlying history")
     print ("5. Calculate Underlying Profit")
+    print ("6. Load group of CSVs from a Directory")
     print ("\nQ. Quit")
     choice = input(" >>  ")
     exec_menu(choice)
 
     return
 
+
+#############################################################################@##
 # Execute menu
+#############################################################################@##
 def exec_menu(choice):
     os.system('clear')
     ch = choice.lower()
@@ -64,6 +70,9 @@ def back():
     menu_actions['main_menu']()
 
 
+#############################################################################@##
+# loads a single csv file into memory
+#############################################################################@##
 def load_csv():
     csv_path = input(" path to csv >>  ")
     if (csv_path == ""):
@@ -83,14 +92,41 @@ def load_csv():
     return
 
 
+#############################################################################@##
+# loads a single csv file into memory
+#############################################################################@##
+def load_dir_of_csv():
+    csv_path = input(" path to directory containing csv files >>  ")
+    if (csv_path == ""):
+        csv_path = "real_data"
+        
+    global transaction_map
+    if os.path.isdir(csv_path):
+        print ("Loading directory...")
+        transaction_map = transaction.load_dir_of_csv_files(csv_path)
+        print ("Load complete!")
+    else:
+        print ("Following directory doe not exist: ", csv_path)
+        dirpath = os.getcwd()
+        print("current directory is : " + dirpath)
+
+    print ("Press any key to continue...")
+    press_key_to_continue()
+    menu_actions['main_menu']()
+    return
+
+#############################################################################@##
 # Blocks until user presses the enter key to continue
 # TODO:  Press anykey and don't display output
+#############################################################################@##
 def press_key_to_continue():
     #key = input('Press any ENTER to continue')
     print("\n\nPress any key to continue")
     repr(readchar.readchar())
 
-
+#############################################################################@##
+#
+#############################################################################@##
 def disp_transactions():
     global transaction_map
     transaction.disp_transaction_map(transaction_map)
@@ -149,6 +185,7 @@ menu_actions = {
     '3': disp_underlyings,
     '4': disp_underlying_history,
     '5': calc_underlying_profit,
+    '6': load_dir_of_csv,
     '9': back,
     'Q': exit,
     'q': exit,
