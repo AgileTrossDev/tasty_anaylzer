@@ -1,13 +1,12 @@
 import sys, os
 import transaction
 import readchar
+from contextlib import redirect_stdout
 
 # Main definition - constants
 menu_actions  = {}
 transaction_map = {}
-# =======================
-#     MENUS FUNCTIONS
-# =======================
+
 
 #############################################################################@##
 # Main menu
@@ -23,6 +22,8 @@ def main_menu():
     print ("4. Display Underlying history")
     print ("5. Calculate Underlying Profit")
     print ("6. Load group of CSVs from a Directory")
+    print ("7. Generate Report")
+    print ("8. Clear Loaded Data")
     print ("\nQ. Quit")
     choice = input(" >>  ")
     exec_menu(choice)
@@ -49,8 +50,8 @@ def exec_menu(choice):
 # # Menu 1
 # def menu1():
 #     print ("Hello Menu 1 !\n")
-#     print ("9. Back")
-#     print ("0. Quit")
+#     print ("B. Back")
+#     print ("Q. Quit")
 #     choice = input(" >>  ")
 #     exec_menu(choice)
 #     return
@@ -59,8 +60,8 @@ def exec_menu(choice):
 # # Menu 2
 # def menu2():
 #     print ("Hello Menu 2 !\n")
-#     print ("9. Back")
-#     print ("0. Quit")
+#     print ("B. Back")
+#     print ("Q. Quit")
 #     choice = input(" >>  ")
 #     exec_menu(choice)
 #     return
@@ -91,16 +92,25 @@ def load_csv():
     menu_actions['main_menu']()
     return
 
-
 #############################################################################@##
-# loads a single csv file into memory
+# Prompts for user input for CSV directory load path
 #############################################################################@##
-def load_dir_of_csv():
+def prompt_for_csv_directory():
     csv_path = input(" path to directory containing csv files >>  ")
     if (csv_path == ""):
         csv_path = "real_data"
         
+    return csv_path
+    
+
+#############################################################################@##
+# loads a single csv file into memory
+#############################################################################@##
+def load_dir_of_csv():    
     global transaction_map
+    
+    csv_path = prompt_for_csv_directory()
+    
     if os.path.isdir(csv_path):
         print ("Loading directory...")
         transaction_map = transaction.load_dir_of_csv_files(csv_path)
@@ -164,20 +174,67 @@ def calc_underlying_profit():
     return
 
 
+#############################################################################@##
+# Writes a report to disk
+#############################################################################@##
+def generate_report():
+    global transaction_map
+    
+    print ("Generating Report...")
+    if not transaction_map:
+        csv_path = prompt_for_csv_directory()
+    
+        if os.path.isdir(csv_path):
+            print ("Loading directory...")
+            transaction_map = transaction.load_dir_of_csv_files(csv_path)
+            print ("Load complete!")
+        else:
+            print ("Following directory doe not exist: ", csv_path)
+            dirpath = os.getcwd()
+            print("current directory is : " + dirpath)
+    
+    try:
+      print ("Writing report...")  
+      with open('reports/report.txt', 'w') as f:
+        with redirect_stdout(f):
+          
+          transaction.disp_underlyings(transaction_map)
+    
+    except:
+      print("Unexpected error:", sys.exc_info()[0])
+      
+    
+    menu_actions['main_menu']()
+    return 
+
+
+#############################################################################@##
+#
+#############################################################################@##
+def clear_loaded_data():
+    global transaction_map
+    print ("Clearing loaded data...")
+    transaction_map = {}
+    
+
+
+#############################################################################@##
+#
+#############################################################################@##
 # def return_to_main_menu():
 #     press_key_to_continue()
 #     menu_actions['main_menu']()
 
 
-# Exit program
+#############################################################################@##
+# Exit Program
+#############################################################################@##
 def exit():
     sys.exit()
 
-# =======================
+#############################################################################@##
 #    MENUS DEFINITIONS
-# =======================
-
-# Menu definition
+#############################################################################@##
 menu_actions = {
     'main_menu': main_menu,
     '1': load_csv,
@@ -186,16 +243,17 @@ menu_actions = {
     '4': disp_underlying_history,
     '5': calc_underlying_profit,
     '6': load_dir_of_csv,
-    '9': back,
+    '7': generate_report,
+    '8': clear_loaded_data,
+    'b': back,
+    'B': back,
     'Q': exit,
     'q': exit,
 }
 
-# =======================
+#############################################################################@##
 #      MAIN PROGRAM
-# =======================
-
-# Main Program
+#############################################################################@##
 if __name__ == "__main__":
     # Launch main menu
     main_menu()

@@ -1,4 +1,4 @@
-import csv,os,sys
+import collections, csv,os,sys
 
 class Transaction:
     # date = row['Date'],
@@ -134,7 +134,9 @@ def disp_transaction_map(transaction_map):
 #############################################################################@##
 def disp_underlyings(transaction_map):
     print ("Now diplaying Underlyings...")
-    for k,v in transaction_map.items():
+    
+    od = collections.OrderedDict(sorted(transaction_map.items()))
+    for k,v in od.items():
          print(k)
 
 
@@ -161,3 +163,8 @@ def disp_underlying_history(transaction_map,symbol):
 
     for rec in transaction_map[symbol]:
         rec.disp()
+        
+        
+        
+def generate_report():
+  print ("NOT YET!")
