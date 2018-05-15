@@ -1,0 +1,4 @@
+export PATH=$PATH:$(pwd)
+echo $PATH
+export FLASK_APP=service/tasty_service.py
+flask run

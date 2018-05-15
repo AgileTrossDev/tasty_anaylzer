@@ -1,2 +1,5 @@
+.venv
+
+# Real Data
 real_data/*.csv
 reports/*.txt

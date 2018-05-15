@@ -133,7 +133,7 @@ def disp_transaction_map(transaction_map):
 # Display just the Underylings that exist in the Transaction Map
 #############################################################################@##
 def disp_underlyings(transaction_map):
-    print ("Now diplaying Underlyings...")
+    print ("\n\nUnderlyings In Report")
     
     od = collections.OrderedDict(sorted(transaction_map.items()))
     for k,v in od.items():
@@ -154,6 +154,7 @@ def calc_profit_for_underlying(transaction_map,symbol):
         #print ("Updated Result: ",result)
 
     print ("\n\nTOTAL (including Fees and commission): ", result)
+    print ("\n\n")
 
 #############################################################################@##
 # Display just the Underylings that exist in the Transaction Map
@@ -164,7 +165,31 @@ def disp_underlying_history(transaction_map,symbol):
     for rec in transaction_map[symbol]:
         rec.disp()
         
-        
-        
-def generate_report():
-  print ("NOT YET!")
+#############################################################################@##
+#
+#############################################################################@##
+def show_complete_history(transaction_map):
+    print ("Complete History")
+    od = collections.OrderedDict(sorted(transaction_map.items()))
+    for k,v in od.items():
+         disp_underlying_history(transaction_map,k)
+
+
+#############################################################################@##
+#
+#############################################################################@##
+def show_complete_profit_history(transaction_map):
+    print ("Complete History")
+    od = collections.OrderedDict(sorted(transaction_map.items()))
+    for k,v in od.items():
+         calc_profit_for_underlying(transaction_map,k)
+
+
+
+#############################################################################@##
+# Display just the Underylings that exist in the Transaction Map
+#############################################################################@##      
+def generate_report(transaction_map):
+  print ("Report Generated on <TODO: TIME STAMP>")
+  disp_underlyings(transaction_map)
+  show_complete_profit_history(transaction_map)

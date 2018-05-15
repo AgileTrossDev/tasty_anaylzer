@@ -77,7 +77,7 @@ def back():
 def load_csv():
     csv_path = input(" path to csv >>  ")
     if (csv_path == ""):
-        csv_path = "real_data/roth_2017.csv"
+        csv_path = "real_data/tastyworks_transactions_x6557_2017-01-01_2018-05-14.csv"
         
     global transaction_map
     if os.path.isfile(csv_path):
@@ -198,7 +198,7 @@ def generate_report():
       with open('reports/report.txt', 'w') as f:
         with redirect_stdout(f):
           
-          transaction.disp_underlyings(transaction_map)
+          transaction.generate_report(transaction_map)
     
     except:
       print("Unexpected error:", sys.exc_info()[0])
