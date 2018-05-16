@@ -1,3 +1,4 @@
 click
 readchar
 flask
+flask-wtf

@@ -1,4 +1,4 @@
-export PATH=$PATH:$(pwd)
+export PYTHONPATH=$PATH:$(pwd):tasty_analyzer/:config/
 echo $PATH
-export FLASK_APP=service/tasty_service.py
+export FLASK_APP=service.py
 flask run

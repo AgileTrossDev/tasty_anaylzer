@@ -5,9 +5,11 @@
 #    pip-compile --output-file requirement.txt requirement.in
 #
 click==6.7
+flask-wtf==0.14.2
 flask==1.0.2
 itsdangerous==0.24        # via flask
 jinja2==2.10              # via flask
 markupsafe==1.0           # via jinja2
 readchar==0.7
 werkzeug==0.14.1          # via flask
+wtforms==2.1              # via flask-wtf
