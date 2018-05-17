@@ -1,19 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
 <table>
-{% for symbol, transactions in data.items() %}
-   <tr>
-     <th> {{ symbol }} </th>
-     <td>
-       <table>
-        
-          {% for rec  in transactions %}
-            <tr>
-               <td>{{rec.date}}</td>
-               <td>{{rec.description}}</td>
-            </tr>
-          {% endfor %}
-          
-       </table>
-     </td>
-   </tr>
-{% endfor %}
-</table>
+     {% for symbol, transactions in data.items() %}
+        <tr>
+          <th> {{ symbol }} </th>
+          <td>
+            <table>
+             
+               {% for rec  in transactions %}
+                 <tr>
+                    <td>{{rec.date}}</td>
+                    <td>{{rec.description}}</td>
+                 </tr>
+               {% endfor %}
+               
+            </table>
+          </td>
+        </tr>
+     {% endfor %}
+     </table>
+{% endblock %}

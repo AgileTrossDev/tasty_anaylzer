@@ -24,13 +24,10 @@ def local():
 @app.route('/data')
 def data():
    pass
-  
-
 
 # /Users/alberta/Developer/git/tasty_anaylzer/real_data/tastyworks_transactions_x6557_2017-01-01_2018-05-14.csv 
 def render_csv(form):
    transaction_map = transaction.build_transaction_map(form.csv_path.data)
-   print(transaction_map)
    return render_template('transactions.html', data = transaction_map) 
   
 
