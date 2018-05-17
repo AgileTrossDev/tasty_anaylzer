@@ -1,8 +1,19 @@
 <table>
-{% for key, value in data.items() %}
+{% for symbol, transactions in data.items() %}
    <tr>
-        <th> {{ key }} </th>
-        <td> PASS </td>
+     <th> {{ symbol }} </th>
+     <td>
+       <table>
+        
+          {% for rec  in transactions %}
+            <tr>
+               <td>{{rec.date}}</td>
+               <td>{{rec.description}}</td>
+            </tr>
+          {% endfor %}
+          
+       </table>
+     </td>
    </tr>
 {% endfor %}
 </table>
