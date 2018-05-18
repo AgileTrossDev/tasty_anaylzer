@@ -1,23 +1,29 @@
 {% extends "base.html" %}
 
 {% block content %}
-<table>
-     {% for symbol, transactions in data.items() %}
+<table id="transactions">
+  {% for symbol, transactions in data.items() %}
         <tr>
           <th> {{ symbol }} </th>
           <td>
-            <table>
-             
-               {% for rec  in transactions %}
+            <table id="records">
+               {% for date,records in transactions.items() %}
                  <tr>
-                    <td>{{rec.date}}</td>
-                    <td>{{rec.description}}</td>
+                    <th> {{ date }} </th>
+                    <td>
+                         <table id="legs">
+                           {% for rec in records %} 
+                             <tr><td>{{rec.description}}</td></tr>
+                           {% endfor %}
+                         </table>
+                    </td>
                  </tr>
                {% endfor %}
-               
             </table>
           </td>
         </tr>
-     {% endfor %}
-     </table>
+  {% endfor %}
+</table>
 {% endblock %}
+
+

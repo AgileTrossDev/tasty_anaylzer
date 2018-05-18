@@ -23,12 +23,14 @@ class Transaction:
                 setattr(self, key, value)
 
     # Simple display of date of transaction and description of it
+    # TODO: deprecate
     def disp(self):
-        print('{0} | {1}'.format(self.date,self.description))
+        print('{0} | {1} (obsolete)'.format(self.date,self.description))
 
 
 #############################################################################@##
-# Builds a trasnaction map by openning a file and parsing it's records.
+# Builds a trasnaction map by openning a file and parsing it's records. This
+# dictionary used the Symbol as the key to access transactions grouped by date.
 #
 # TODO: Currently only processes Equity Options.  Need to build separate keys
 #       for Equity, Equity Option, and Money Transfer, etc
@@ -69,10 +71,13 @@ def build_transaction_map(path):
                   continue
 
              if key in transaction_map:
-                transaction_map[key].append(record)
+                if not row['Date'] in transaction_map[key]:
+                    transaction_map[key][row['Date']] = []
+                transaction_map[key][row['Date']].append(record)
              else:
-                transaction_map[key] = []
-                transaction_map[key].append(record)
+                transaction_map[key] = {}
+                transaction_map[key][row['Date']] = []
+                transaction_map[key][row['Date']].append(record)
 
     print ("CSV File loaded!")
     return transaction_map
@@ -82,8 +87,6 @@ def build_transaction_map(path):
 # Combines two maps into one map.  The contents of source are inserted into dest
 #############################################################################@##
 def combine_transaction_maps(dest, src):
-    
-    
     for k,v in src.items():
         if k in dest:  # Update existing underyling
           dest[k] = dest[k] +src[k]
@@ -92,7 +95,6 @@ def combine_transaction_maps(dest, src):
           dest[k] = src[k]
     
     return dest
-    
     
 
 #############################################################################@##
@@ -123,10 +125,12 @@ def load_dir_of_csv_files(path):
 #############################################################################@##
 def disp_transaction_map(transaction_map):
     print ("Now Diplaying Transaciton Hash...")
-    for k,v in transaction_map.items():
-         print(k,':')
-         for rec in v:
-             rec.disp()
+    for symbol,transactions in transaction_map.items():
+         print("\n\n{}:".format(symbol))
+         for date,records in transactions.items():
+            print(" {}:".format(date))
+            for rec in records:
+             print("  {}".format(rec.description))
 
 
 #############################################################################@##
