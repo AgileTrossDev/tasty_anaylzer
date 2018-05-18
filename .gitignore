@@ -1,5 +1,7 @@
 .venv
 app/__pycache__/
+tasty_analyzer/__pycache__
+
 # Real Data
 real_data/*.csv
 reports/*.txt
